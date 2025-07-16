@@ -175,7 +175,7 @@ public class ChessPiece {
                 ChessPosition newPos = new ChessPosition(newRow, newCol);
                 ChessPiece targPiece = board.getPiece(newPos);
 
-                if (targPiece == null && targPiece.getTeamColor() != this.pieceColor) {
+                if (targPiece != null && targPiece.getTeamColor() != this.pieceColor) {
                     addMoveWithPromotion(moves, myPosition, newPos, newRow, promotionRow);
                 }
             }
