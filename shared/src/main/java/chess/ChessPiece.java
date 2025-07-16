@@ -132,7 +132,29 @@ public class ChessPiece {
         }
     }
 
-    private void addKingMoves(ArrayList<ChessMove> moves, ChessBoard board, ChessPosition myPosition) {}
+    private void addKingMoves(ArrayList<ChessMove> moves, ChessBoard board, ChessPosition myPosition) {
+        int row = myPosition.getRow();
+        int col = myPosition.getColumn();
+
+        for (int rowOffset = -1; rowOffset <= 1; rowOffset++) {
+            for (int colOffset = -1; colOffset <= 1; colOffset++) {
+                if (rowOffset == 0 && colOffset == 0) {
+                    continue;
+                }
+
+                int newRow = row + rowOffset;
+                int newCol = col + colOffset;
+
+                if (isValidPosition(newRow, newCol)) {
+                    ChessPosition newPos = new ChessPosition(newRow, newCol);
+
+                    if (canMoveTo(board, newPos)) {
+                        moves.add(new ChessMove(myPosition, newPos));
+                    }
+                }
+            }
+        }
+    }
 
     private void addQueenMoves(ArrayList<ChessMove> moves, ChessBoard board, ChessPosition myPosition) {
         addBishopMoves(moves, board, myPosition);
@@ -226,6 +248,7 @@ public class ChessPiece {
             }
         }
     }
+
     @Override
     public boolean equals(Object ob) {
         if (this == ob) return true;
