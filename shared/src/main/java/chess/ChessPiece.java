@@ -124,9 +124,21 @@ public class ChessPiece {
 
     private void addKingMoves(ArrayList<ChessMove> moves, ChessBoard board, ChessPosition myPosition) {}
 
-    private void addQueenMoves(ArrayList<ChessMove> moves, ChessBoard board, ChessPosition myPosition) {}
+    private void addQueenMoves(ArrayList<ChessMove> moves, ChessBoard board, ChessPosition myPosition) {
+        addBishopMoves(moves, board, myPosition);
+        addRookMoves(moves, board, myPosition);
+    }
 
-    private void addBishopMoves(ArrayList<ChessMove> moves, ChessBoard board, ChessPosition myPosition) {}
+    private void addBishopMoves(ArrayList<ChessMove> moves, ChessBoard board, ChessPosition myPosition) {
+        int [][] directions = {
+                {1, 1}, {1, -1},
+                {-1, 1}, {-1, -1}
+        };
+
+        for (int [] dir : directions) {
+            addSlideMoves(moves, board, myPosition, dir[0], dir[1]);
+        }
+    }
 
     private void addKnightMoves(ArrayList<ChessMove> moves, ChessBoard board, ChessPosition myPosition) {}
 
