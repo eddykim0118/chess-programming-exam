@@ -96,6 +96,16 @@ public class ChessPiece {
         }
     }
 
+    private boolean canMoveTo(ChessBoard board, ChessPosition position) {
+        ChessPiece pieceAtPosition = board.getPiece(position);
+
+        if (pieceAtPosition == null) {
+            return true;
+        }
+
+        return pieceAtPosition.getTeamColor() != this.pieceColor;
+    }
+
     private void addSlideMoves(ArrayList<ChessMove> moves, ChessBoard board, ChessPosition myPosition, int rowDir, int colDir) {
         int row = myPosition.getRow();
         int col = myPosition.getColumn();
@@ -140,7 +150,30 @@ public class ChessPiece {
         }
     }
 
-    private void addKnightMoves(ArrayList<ChessMove> moves, ChessBoard board, ChessPosition myPosition) {}
+    private void addKnightMoves(ArrayList<ChessMove> moves, ChessBoard board, ChessPosition myPosition) {
+        int row = myPosition.getRow();
+        int col = myPosition.getColumn();
+
+        int [][] knightMoves = {
+                {2, 1}, {2, -1},
+                {-2, 1}, {-2, -1},
+                {1, 2}, {1, -2},
+                {-1, 2}, {-1, -2}
+        };
+
+        for (int [] move : knightMoves) {
+            int newRow = row + move[0];
+            int newCol = col + move[1];
+
+            if (isValidPosition(newRow, newCol)) {
+                ChessPosition newPos = new ChessPosition(newRow, newCol);
+
+                if (canMoveTo(board, newPos)) {
+                    moves.add(new ChessMove(myPosition, newPos));
+                }
+            }
+        }
+    }
 
     private void addRookMoves(ArrayList<ChessMove> moves, ChessBoard board, ChessPosition myPosition) {
         int [][] directions = {
