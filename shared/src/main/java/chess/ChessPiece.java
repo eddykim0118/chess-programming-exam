@@ -96,6 +96,32 @@ public class ChessPiece {
         }
     }
 
+    private void addSlideMoves(ArrayList<ChessMove> moves, ChessBoard board, ChessPosition myPosition, int rowDir, int colDir) {
+        int row = myPosition.getRow();
+        int col = myPosition.getColumn();
+
+        for (int i = 1; i <= 8; i++) {
+            int newRow = row + (i * rowDir);
+            int newCol = col + (i * colDir);
+
+            if (!isValidPosition(newRow, newCol)) {
+                break;
+            }
+
+            ChessPosition newPos = new ChessPosition(newRow, newCol);
+            ChessPiece pieceAtNewPos = board.getPiece(newPos);
+
+            if (pieceAtNewPos == null) {
+                moves.add(new ChessMove(myPosition, newPos));
+            } else if (pieceAtNewPos.getTeamColor() != this.pieceColor) {
+                moves.add(new ChessMove(myPosition, newPos));
+                break;
+            } else {
+                break;
+            }
+        }
+    }
+
     private void addKingMoves(ArrayList<ChessMove> moves, ChessBoard board, ChessPosition myPosition) {}
 
     private void addQueenMoves(ArrayList<ChessMove> moves, ChessBoard board, ChessPosition myPosition) {}
@@ -104,7 +130,16 @@ public class ChessPiece {
 
     private void addKnightMoves(ArrayList<ChessMove> moves, ChessBoard board, ChessPosition myPosition) {}
 
-    private void addRookMoves(ArrayList<ChessMove> moves, ChessBoard board, ChessPosition myPosition) {}
+    private void addRookMoves(ArrayList<ChessMove> moves, ChessBoard board, ChessPosition myPosition) {
+        int [][] directions = {
+                {1, 0}, {-1, 0},
+                {0, 1}, {0, -1}
+        };
+
+        for (int [] dir : directions) {
+            addSlideMoves(moves, board, myPosition, dir[0], dir[1]);
+        }
+    }
 
     private void addPawnMoves(ArrayList<ChessMove> moves, ChessBoard board, ChessPosition myPosition) {
         int row = myPosition.getRow();
@@ -146,5 +181,22 @@ public class ChessPiece {
             }
         }
     }
+    @Override
+    public boolean equals(Object ob) {
+        if (this == ob) return true;
+        if (ob == null || getClass() != ob.getClass()) return false;
 
+        ChessPiece that = (ChessPiece) ob;
+        return pieceColor == that.pieceColor && type == that.type;
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(pieceColor, type);
+    }
+
+    @Override
+    public String toString() {
+        return pieceColor + " " + type;
+    }
 }
