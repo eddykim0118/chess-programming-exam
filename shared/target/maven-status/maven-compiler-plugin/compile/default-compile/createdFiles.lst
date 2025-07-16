@@ -1,5 +1,6 @@
 chess/ChessPiece.class
 chess/InvalidMoveException.class
+chess/ChessBoard$1.class
 chess/ChessPiece$PieceType.class
 chess/ChessBoard.class
 chess/ChessGame$TeamColor.class
